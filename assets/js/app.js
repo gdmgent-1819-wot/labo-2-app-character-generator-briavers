@@ -2,7 +2,7 @@
     // Initialize Firebase
     // TODO: Replace with your project's customized code snippet
     var config = {
-      apiKey: "AIzaSyDMujpxVSdyU5x3DHF_75UyRXc203ZdJY0",
+    apiKey: "AIzaSyDMujpxVSdyU5x3DHF_75UyRXc203ZdJY0",
     authDomain: "wot-1819-briavers.firebaseapp.com",
     databaseURL: "https://wot-1819-briavers.firebaseio.com",
     projectId: "wot-1819-briavers",
@@ -29,17 +29,23 @@ createGrid();
 let table = document.getElementById('arcade');
 table.innerHTML = tempstr;
 
+function convertHex(hex) {
+  hex = hex.replace('#', '');
+  r = parseInt(hex.substring(0, 2), 16);
+  g = parseInt(hex.substring(2, 4), 16);
+  b = parseInt(hex.substring(4, 6), 16);
+
+  result = '(' + r + ',' + g + ',' + b + ',' + ')';
+  return result;
+}
+
+
 
 function changeColor(i, j){
-  console.log(i, ',',  j)
+
   let led = document.getElementById(`${i},${j}`);
-  if (led.style.backgroundColor == "red") {
-    console.log("is black")
-    led.style.backgroundColor = "black";
-  } else {
-    led.style.backgroundColor = "red";
-  }
-  
+  let colorToAply = document.getElementById('hexColor').value;
+  led.style.backgroundColor = `#${colorToAply}`;
   
 };
     
@@ -54,11 +60,13 @@ function createChar(){
             data.push('(0,0,0)');
             
           }else{
-            data.push('(255,0,0)');
+            let led = document.getElementById(`${i},${j}`); 
+            let hex = led.style.backgroundColor;
+            hex = hex.replace('rgb', '');
+            data.push(hex);
           }
 
       }
-      console.log(data)
       DBPush(data)
     };
     };
